@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Chat;
+use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,9 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'Marlin Forbes',
+        User::updateOrCreate([
             'email' => 'marlinf@example.com',
+        ], [
+            'name' => 'Marlin Forbes',
+            'password' => Hash::make('password'),
         ]);
     }
 }

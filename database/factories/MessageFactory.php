@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\MessageRole;
+use App\Models\Persona;
+use GuidoCella\EloquentPopulator\Populator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +19,10 @@ class MessageFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+        return [...Populator::guessFormatters($this->modelName()), ...[
+            'role' => $this->faker->randomElement(MessageRole::cases()),
+            'name' => fn ($attrs) => Persona::findOrFail($attrs['persona_id'])->name,
+            'function_call' => null,
+        ]];
     }
 }

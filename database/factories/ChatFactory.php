@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use GuidoCella\EloquentPopulator\Populator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,8 @@ class ChatFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+        return [...Populator::guessFormatters($this->modelName()), ...[
+            'name' => $this->faker->catchPhrase(),
+        ]];
     }
 }

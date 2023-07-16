@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use GuidoCella\EloquentPopulator\Populator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,9 @@ class PersonaFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+        return [...Populator::guessFormatters($this->modelName()), ...[
+            'name' => $this->faker->name(),
+            'prompt' => $this->faker->randomElement(config('legion.prompts'))['prompt'],
+        ]];
     }
 }

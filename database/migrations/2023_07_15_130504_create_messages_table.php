@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('role');
             $table->string('content')->nullable();
             $table->string('name')->nullable();
-            $table->json('function_call');
+            $table->json('function_call')->nullable();
             $table->timestamps();
         });
     }

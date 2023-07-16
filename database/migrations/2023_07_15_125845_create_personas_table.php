@@ -19,9 +19,7 @@ return new class extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('name');
-            $table->string('prompt');
-            $table->json('params');
-
+            $table->text('prompt');
             $table->timestamps();
         });
     }
