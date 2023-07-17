@@ -1,5 +1,7 @@
 <div class="grid grid-cols-2 gap-4">
-    @foreach (auth()->user()->personas as $persona)
+    @forelse (auth()->user()->personas as $persona)
     <x-persona-card :persona="$persona" :width="40"/>
-    @endforeach
+    @empty
+    <p>No personas created. <a href="{{ route('personas.create') }}">Create one</a>.</p>
+    @endforelse
 </div>

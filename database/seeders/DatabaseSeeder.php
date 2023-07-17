@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Chat;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,14 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        $user = User::updateOrCreate([
-            'email' => 'marlinf@example.com',
-        ], [
-            'bio' => 'Freelance Laravel/PHP developer. Open-source solutions. I enjoy making music, reading books and walks in nature.',
-            'name' => 'Marlin Forbes',
-            'password' => Hash::make('password'),
-        ]);
-
-        $this->call(PersonaSeeder::class);
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }

@@ -1,8 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ $chat->name }}
-        with
-        {{ $chat->persona->name }}
+        Chat {{ $chat->persona->name }}
+        @if ($chat->topic)
+        about {{ $chat->topic }}
+        @endif
     </x-slot>
 
     <div x-data="messages">
@@ -16,7 +17,7 @@
                             {{ __('Me') }}
                             <time class="text-xs opacity-50">{{ $message->created_at->diffForHumans() }}</time>
                         </div>
-                        <div class="chat-bubble chat-bubble-primary">{{ $message->content }}</div>
+                        <div class="chat-bubble chat-bubble-primary">{!! nl2br($message->content) !!}</div>
                     </div>
                     @break
                 @case('assistant')
