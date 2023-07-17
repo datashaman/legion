@@ -37,3 +37,13 @@ php artisan serve
 ```
 
 Navigate to `http://127.0.0.1:8000`, log in and create your first persona at `http://127.0.0.1/personas/create`.
+
+## sources
+
+The list of prompt templates come from [awesome chatgpt prompts](https://github.com/f/awesome-chatgpt-prompts/).
+
+To regenerate the `resources/prompts.yml` file:
+
+```
+php artisan import-prompts
+```
