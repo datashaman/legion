@@ -43,7 +43,17 @@
                         <span>{{Session::get('info')}}</span>
                     </div>
                 </div>
-            </div>§
+            </div>
+        @endif
+
+        @if(Session::has('error'))
+            <div class="toast">
+                <div class="alert alert-danger">
+                    <div>
+                        <span>{{Session::get('error')}}</span>
+                    </div>
+                </div>
+            </div>
         @endif
     </body>
 </html>

@@ -18,7 +18,6 @@ class ChatFactory extends Factory
     public function definition(): array
     {
         return [...Populator::guessFormatters($this->modelName()), ...[
-            'name' => $this->faker->catchPhrase(),
         ]];
     }
 }

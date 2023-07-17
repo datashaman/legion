@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Marlin Forbes',
             'password' => Hash::make('password'),
         ]);
+
+        $this->call(PersonaSeeder::class);
     }
 }

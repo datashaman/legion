@@ -6,9 +6,19 @@
     </x-slot>
 
     <div class="messages h-72 relative" x-data="messages">
-        @forelse ($chat->messages as $message)
-        @empty
-        @endforelse
+        @foreach ($chat->messages as $message)
+            @continue($message->role->value === 'system')
+            @switch($message->role->value)
+                @case('user')
+                    <div class="m-4 text-right">
+                        <span class="p-2 text-white bg-blue-700 rounded-lg">{{ $message->content }}</span>
+                    </div>
+                    @break
+                @case('assistant')
+                    <div class="m-4 message">{{ $message->content }}</div>
+                    @break
+            @endswitch
+        @endforeach
 
         <div class="absolute inset-x-0 bottom-0">
             <input type="text" name="message" class="input input-sm input-bordered" x-model="message">
@@ -26,7 +36,7 @@ document.addEventListener('alpine:init', () => {
             this.loading = true
 
             axios
-                .post('/chats/{{ $chat->id }}/messages', {
+                .post('/personas/{{ $persona->slug }}/chats/{{ $chat->id }}/messages', {
                     role: 'user',
                     content: this.message,
                 })
@@ -42,3 +52,11 @@ document.addEventListener('alpine:init', () => {
     }))
 })
 </script>
+
+<style>
+.message-user {
+    color: white;
+    background-color: blue;
+    text-justify: right;
+}
+</style>

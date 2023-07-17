@@ -17,7 +17,7 @@ class PersonaSeeder extends Seeder
         $user = User::first();
 
         Persona::factory()
-            ->count(5)
+            ->count(2)
             ->create([
                 'user_id' => $user->id,
             ]);

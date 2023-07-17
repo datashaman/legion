@@ -23,8 +23,7 @@ return new class extends Migration
                   ->constrained()
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->text('topic')->nullable();
             $table->timestamps();
         });
     }

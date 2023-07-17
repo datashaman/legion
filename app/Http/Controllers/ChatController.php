@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateChat;
+use App\Actions\CreateChatCompletion;
 use App\Http\Requests\StoreChatRequest;
 use App\Http\Requests\UpdateChatRequest;
 use App\Models\Chat;
@@ -41,16 +41,23 @@ class ChatController extends Controller
         $chat->user_id = auth()->user()->id;
 
         if ($chat->save()) {
-            $response = app()->call(CreateChat::class, [
-                'params' => [
-                    'messages' => [
-                        ['role' => 'system', 'content' => $persona->prompt],
-                        ['role' => 'system', 'content' => 'you are starting a new chat with me, please introduce yourself.'],
-                    ],
-                ],
+            $chat->messages()->create([
+                'role' => 'system',
+                'content' => $persona->prompt,
             ]);
 
-            $chat->messages()->create($response['choices'][0]['message']);
+            $topic = $chat->topic ? "with the topic '{$chat->topic}'" : '';
+
+            $chat->messages()->create([
+                'role' => 'system',
+                'content' => <<<EOF
+                    Your name is '{$persona->name}'.
+                    You are starting a new chat titled '{$chat->name}' {$topic}.
+                    Introduce yourself.
+                    EOF,
+            ]);
+
+            $chat->createChatCompletion();
 
             return redirect()->route('chats.show', [
                 'persona' => $persona,
@@ -68,6 +75,7 @@ class ChatController extends Controller
     {
         return view('chats.show', [
             'chat' => $chat,
+            'persona' => $persona,
         ]);
     }
 

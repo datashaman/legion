@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\CreateChatCompletion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,5 +30,18 @@ class Chat extends Model
     public function persona(): BelongsTo
     {
         return $this->belongsTo(Persona::class);
+    }
+
+    public function createChatCompletion(): string
+    {
+        $response = app()->call(CreateChatCompletion::class, [
+            'messages' => $this->messages->toArray(),
+        ]);
+
+        $message = $response->choices[0]->message;
+
+        $this->messages()->create($message);
+
+        return $message['content'];
     }
 }

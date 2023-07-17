@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Actions\GenerateAvatar;
+use App\Actions\GenerateName;
 use App\Models\Persona;
 use GuidoCella\EloquentPopulator\Populator;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,7 +23,6 @@ class PersonaFactory extends Factory
         $prompt = $this->faker->randomElement(config('legion.prompts'));
 
         return [...Populator::guessFormatters($this->modelName()), ...[
-            'name' => $this->faker->name(),
             'act' => $prompt['act'],
             'prompt' => $prompt['prompt'],
             'avatar' => '',
@@ -36,12 +36,15 @@ class PersonaFactory extends Factory
      */
     public function configure()
     {
-        return $this->afterCreating(function (Persona $persona) {
+        return $this->afterMaking(function (Persona $persona) {
+            $persona->name = app()->call(GenerateName::class, [
+                'act' => $persona->act,
+            ]);
+
             $persona->storeAvatar(app()->call(GenerateAvatar::class, [
                 'name' => $persona->name,
                 'act' => $persona->act,
             ]));
-            $persona->save();
         });
     }
 }

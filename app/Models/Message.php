@@ -31,4 +31,14 @@ class Message extends Model
     {
         return $this->belongsTo(Persona::class);
     }
+
+    public function toArray(): array
+    {
+        return array_filter([
+            'role' => $this->role->value,
+            'name' => $this->name,
+            'content' => $this->content,
+            'function_call' => $this->function_call,
+        ]);
+    }
 }

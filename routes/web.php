@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/avatar', AvatarController::class);
     Route::resource('/personas', PersonaController::class);
     Route::resource('/personas/{persona}/chats', ChatController::class);
+    Route::resource('/personas/{persona}/chats/{chat}/messages', MessageController::class)->only([
+        'store',
+    ]);
 });
 
 require __DIR__.'/auth.php';
