@@ -22,7 +22,11 @@ git clone https://github.com/datashaman/legion.git
 cp .env.example .env
 ```
 
-Set your `OPENAI_API_KEY` in `.env`.
+Set your `OPENAI_API_KEY` in `.env`, along with any other variables required, then migrate:
+
+```
+php artisan migrate
+```
 
 Create a user:
 
