@@ -1,3 +1,5 @@
+@inject('converter', 'League\CommonMark\CommonMarkConverter')
+
 <x-app-layout>
     <x-slot name="header">
         Chat {{ $chat->persona->name }}
@@ -17,7 +19,7 @@
                             {{ __('Me') }}
                             <time class="text-xs opacity-50">{{ $message->created_at->diffForHumans() }}</time>
                         </div>
-                        <div class="chat-bubble chat-bubble-primary">{!! nl2br($message->content) !!}</div>
+                        <div class="chat-bubble chat-bubble-primary">{!! $converter->convert($message->content) !!}</div>
                     </div>
                     @break
                 @case('assistant')
@@ -31,7 +33,7 @@
                             {{ $persona->name }}
                             <time class="text-xs opacity-50">{{ $message->created_at->diffForHumans() }}</time>
                         </div>
-                        <div class="chat-bubble chat-bubble-accent">{!! nl2br($message->content) !!}</div>
+                        <div class="chat-bubble chat-bubble-accent">{!! $converter->convert($message->content) !!}</div>
                     </div>
                     @break
             @endswitch
@@ -40,7 +42,7 @@
 
         <div class="fixed ml-12 bottom-4">
                 <textarea name="message" class="textarea textarea-bordered" cols="120" rows=2 x-model="message"></textarea>
-                <button class="btn btn-sm btn-primary align-top ml-2" :disabled="loading" @click.prevent="postMessage">Send</button>
+                <button type="submit" class="btn btn-sm btn-primary align-top ml-2" :disabled="loading" @click.prevent="postMessage">Send</button>
         </div>
     </div>
 </x-app-layout>
