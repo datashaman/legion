@@ -12,6 +12,10 @@ class Chat extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -22,8 +26,8 @@ class Chat extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function personas(): BelongsToMany
+    public function persona(): BelongsTo
     {
-        return $this->belongsToMany(Persona::class);
+        return $this->belongsTo(Persona::class);
     }
 }

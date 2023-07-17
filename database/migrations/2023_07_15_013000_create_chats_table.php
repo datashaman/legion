@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Persona;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,11 +16,15 @@ return new class extends Migration
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)
-                  ->nullable()
+                  ->constrained()
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+            $table->foreignIdFor(Persona::class)
                   ->constrained()
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -11,6 +11,13 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'content',
+        'function_call',
+        'name',
+        'role',
+    ];
+
     protected $casts = [
         'role' => MessageRole::class,
     ];

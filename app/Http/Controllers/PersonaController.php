@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
 use App\Models\Persona;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class PersonaController extends Controller
 {
@@ -13,7 +15,7 @@ class PersonaController extends Controller
      */
     public function index()
     {
-        //
+        return view('personas.index');
     }
 
     /**
@@ -21,7 +23,7 @@ class PersonaController extends Controller
      */
     public function create()
     {
-        //
+        return view('personas.create');
     }
 
     /**
@@ -29,7 +31,20 @@ class PersonaController extends Controller
      */
     public function store(StorePersonaRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $avatar = Arr::pull($validated, 'avatar');
+
+        $persona = new Persona($validated);
+
+        $persona->user_id = auth()->user()->id;
+        $persona->storeAvatar($avatar);
+
+        if ($persona->save()) {
+            return redirect()->route('personas.index')->withInfo('Persona created');
+        }
+
+        return redirect()->back()->withError('Persona not created');
     }
 
     /**
@@ -37,7 +52,9 @@ class PersonaController extends Controller
      */
     public function show(Persona $persona)
     {
-        //
+        return view('personas.show', [
+            'persona' => $persona,
+        ]);
     }
 
     /**
@@ -45,7 +62,9 @@ class PersonaController extends Controller
      */
     public function edit(Persona $persona)
     {
-        //
+        return view('personas.edit', [
+            'persona' => $persona,
+        ]);
     }
 
     /**
@@ -53,7 +72,16 @@ class PersonaController extends Controller
      */
     public function update(UpdatePersonaRequest $request, Persona $persona)
     {
-        //
+        $validated = $request->validated();
+
+        $avatar = Arr::pull($validated, 'avatar');
+        $persona->storeAvatar($avatar);
+
+        if ($persona->update($validated)) {
+            return redirect()->route('personas.index')->withInfo('Persona updated');
+        }
+
+        return redirect()->back()->withError('Persona not updated');
     }
 
     /**
@@ -61,6 +89,7 @@ class PersonaController extends Controller
      */
     public function destroy(Persona $persona)
     {
-        //
+        return $persona->delete();
     }
+
 }

@@ -25,7 +25,7 @@ return new class extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('role');
-            $table->string('content')->nullable();
+            $table->text('content')->nullable();
             $table->string('name')->nullable();
             $table->json('function_call')->nullable();
             $table->timestamps();

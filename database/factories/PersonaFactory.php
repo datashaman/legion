@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Actions\GenerateAvatar;
+use App\Models\Persona;
 use GuidoCella\EloquentPopulator\Populator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,9 +19,29 @@ class PersonaFactory extends Factory
      */
     public function definition(): array
     {
+        $prompt = $this->faker->randomElement(config('legion.prompts'));
+
         return [...Populator::guessFormatters($this->modelName()), ...[
             'name' => $this->faker->name(),
-            'prompt' => $this->faker->randomElement(config('legion.prompts'))['prompt'],
+            'act' => $prompt['act'],
+            'prompt' => $prompt['prompt'],
+            'avatar' => '',
         ]];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function (Persona $persona) {
+            $persona->storeAvatar(app()->call(GenerateAvatar::class, [
+                'name' => $persona->name,
+                'act' => $persona->act,
+            ]));
+            $persona->save();
+        });
     }
 }

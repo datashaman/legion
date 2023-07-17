@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        User::updateOrCreate([
+        $user = User::updateOrCreate([
             'email' => 'marlinf@example.com',
         ], [
             'name' => 'Marlin Forbes',

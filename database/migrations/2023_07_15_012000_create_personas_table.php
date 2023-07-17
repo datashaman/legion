@@ -19,8 +19,14 @@ return new class extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('name');
+            $table->string('slug');
+            $table->string('act');
+            $table->string('avatar');
             $table->text('prompt');
             $table->timestamps();
+
+            $table->unique(['user_id', 'name']);
+            $table->unique(['user_id', 'slug']);
         });
     }
 

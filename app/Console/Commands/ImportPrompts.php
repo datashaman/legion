@@ -29,14 +29,25 @@ class ImportPrompts extends Command
     {
         $prompts = $this
             ->fetchPrompts()
-            ->map(
+            ->mapWithKeys(
                 function ($prompt) {
                     $prompt['id'] = Str::slug($prompt['act']);
+                    $prompt['prompt'] = preg_replace(
+                        [
+                            '/\s*My first request.*$/',
+                            '/\s*My first suggestion.*$/',
+                        ],
+                        '',
+                        $prompt['prompt']
+                    );
 
-                    return $prompt;
+                    return [
+                        $prompt['id'] => $prompt,
+                    ];
                 }
             )
-            ->sortBy('id')
+            ->keyBy('id')
+            ->sortBy('act')
             ->all();
 
         File::put(resource_path('prompts.yml'), Yaml::dump($prompts, 2, 2));
