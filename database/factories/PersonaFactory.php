@@ -42,8 +42,7 @@ class PersonaFactory extends Factory
             ]);
 
             $persona->storeAvatar(app()->call(GenerateAvatar::class, [
-                'name' => $persona->name,
-                'act' => $persona->act,
+                'prompt' => "avatar named '{$persona->name}' acting as '{$persona->act}', digital art.",
             ]));
         });
     }

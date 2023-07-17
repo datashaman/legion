@@ -22,8 +22,7 @@ class AvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'act' => 'required',
+            'prompt' => 'required',
         ];
     }
 }

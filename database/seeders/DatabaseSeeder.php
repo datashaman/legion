@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $user = User::updateOrCreate([
             'email' => 'marlinf@example.com',
         ], [
+            'bio' => 'Freelance Laravel/PHP developer. Open-source solutions. I enjoy making music, reading books and walks in nature.',
             'name' => 'Marlin Forbes',
             'password' => Hash::make('password'),
         ]);

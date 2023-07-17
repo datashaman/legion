@@ -40,8 +40,8 @@ class Chat extends Model
 
         $message = $response->choices[0]->message;
 
-        $this->messages()->create($message);
+        $this->messages()->create($message->toArray());
 
-        return $message['content'];
+        return $message->content;
     }
 }

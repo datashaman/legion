@@ -94,9 +94,7 @@ document.addEventListener('alpine:init', () => {
 
                 axios
                     .post('/avatar', {
-                        name: this.name,
-                        act: this.act,
-                        prompt: this.prompt,
+                        prompt: `avatar named '{this.name}' acting as '{this.act}', digital art`,
                     })
                     .then((response) => {
                         this.avatar = response.data

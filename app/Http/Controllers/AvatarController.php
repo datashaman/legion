@@ -15,8 +15,7 @@ class AvatarController extends Controller
     public function __invoke(AvatarRequest $request)
     {
         return app()->call(GenerateAvatar::class, [
-            'name' => $request->name,
-            'act' => $request->act,
+            'prompt' => $request->prompt,
         ]);
     }
 }
